@@ -3,3 +3,6 @@ build
 coverage
 node_modules
 dist
+
+# Ignore markdown files
+*.md
