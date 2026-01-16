@@ -94,7 +94,7 @@ export interface RateRequest {
   package: Package;
   origin: Address;
   destination: Address;
-  options: ShippingOptions; // is Shipping Options?
+  options: ShippingOptions;
   carriersFilter?: CarrierName[];
 }
 
