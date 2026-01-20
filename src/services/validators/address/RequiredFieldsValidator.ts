@@ -10,6 +10,14 @@ export class RequiredFieldsValidator extends BaseValidator<Address> {
   protected doValidation(address: Address): ValidationResult {
     const errors: ValidationError[] = [];
 
+    if (!address.name.trim()) {
+      errors.push({
+        field: "name",
+        message: "Name is required",
+        code: "REQUIRED_FIELD",
+      });
+    }
+
     if (!address.street1.trim()) {
       errors.push({
         field: "street1",

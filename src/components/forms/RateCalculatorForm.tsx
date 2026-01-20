@@ -1,9 +1,21 @@
 "use client";
 
 import usePackageForm from "@/hooks/usePackageForm";
+import FormNavigation from "../ui/FormNavigation";
+import PackageDetailsStep from "./PackageDetailsStep";
+import AddressStep from "./AddressStep";
+import ShippingOptionsStep from "./ShippingOptionsStep";
 
 const RateCalculatorForm = () => {
-  const { state, nextStep, prevStep } = usePackageForm();
+  const {
+    state,
+    updatePackageDetails,
+    updateOrigin,
+    updateDestination,
+    updateShippingOptions,
+    nextStep,
+    prevStep,
+  } = usePackageForm();
 
   return (
     <section className="w-full max-w-xl flex flex-col gap-y-7 p-6 border rounded-lg">
@@ -17,30 +29,37 @@ const RateCalculatorForm = () => {
       </header>
 
       {/* Step Content */}
-      <div className="min-h-[150px] flex items-center justify-center border rounded">
+      <div className="min-h-[150px]">
         {/* Content... */}
+        {state.currentStep === 1 && (
+          <PackageDetailsStep
+            value={state.packageDetails}
+            onChange={updatePackageDetails}
+          />
+        )}
+        {state.currentStep === 2 && (
+          <AddressStep
+            origin={state.origin}
+            destination={state.destination}
+            onOriginChange={updateOrigin}
+            onDestinationChange={updateDestination}
+          />
+        )}
+        {state.currentStep === 3 && (
+          <ShippingOptionsStep
+            value={state.shippingOptions}
+            onChange={updateShippingOptions}
+          />
+        )}
       </div>
 
       {/* Navigation */}
-      <footer className="flex justify-between items-center">
-        <button
-          type="button"
-          onClick={prevStep}
-          disabled={state.currentStep === 1}
-          className="px-4 py-2 border rounded disabled:opacity-50"
-        >
-          Back
-        </button>
-        <h2 className="">Step {state.currentStep} of 3</h2>
-        <button
-          type="button"
-          onClick={nextStep}
-          disabled={state.currentStep === 3}
-          className="px-4 py-2 bg-black text-white rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </footer>
+      <FormNavigation
+        currentStep={state.currentStep}
+        totalSteps={4}
+        onBack={prevStep}
+        onNext={nextStep}
+      />
     </section>
   );
 };
